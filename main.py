@@ -8,11 +8,13 @@ from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 import copy
 
-# Every half-foot has a node.
+# Every half-floor title length has a node.
+floor_title_length=305 #milimeters
 workspaceRows = 20
 workspaceCols = 32
-node_distance = 152.4  # mm
+node_distance = floor_title_length/2  # milimeters
 
+#in meters
 obstacle = [
     (0.61, 2.743), (0.915, 2.743), (1.219, 2.743),
     (1.829, 1.219), (1.829, 1.524), (1.829, 1.829),
@@ -57,16 +59,14 @@ def turn_right():
 
 
 def move_forward_one_node():
-    left_motor.run_angle(200, node_distance*360 /
-                         ev3_wheel_circumference, Stop.HOLD, False)
-    right_motor.run_angle(200, node_distance*360 /
-                          ev3_wheel_circumference, Stop.HOLD, True)
+    offset=0
+    move_fw(node_distance+offset)
 
 #######################################
 
 
-def metersToFeet(length):
-    return length*3.28084
+def metersToFloor_title_length(length):
+    return length*1000/floor_title_length
 # Algorithm for minimum manhattan distance, Dijkstra
 
 
@@ -125,10 +125,10 @@ class Workspace:
             self.map.append(empty_row)
 
     def mark_Start_Goal(self):
-        self.start = (round(metersToFeet(start[0]), 1), round(
-            metersToFeet(start[1]), 1))
-        self.goal = (round(metersToFeet(goal[0]), 1), round(
-            metersToFeet(goal[1]), 1))
+        self.start = (round(metersToFloor_title_length(start[0]), 1), round(
+            metersToFloor_title_length(start[1]), 1))
+        self.goal = (round(metersToFloor_title_length(goal[0]), 1), round(
+            metersToFloor_title_length(goal[1]), 1))
         for i in range(workspaceRows):
             for j in range(workspaceCols):
                 node = self.map[i][j]
@@ -146,8 +146,8 @@ class Workspace:
         for obs in obstacle:
             if obs[0] == -1:
                 continue
-            obs_x = round(metersToFeet(obs[0]), 1)
-            obs_y = round(metersToFeet(obs[1]), 1)
+            obs_x = round(metersToFloor_title_length(obs[0]), 1)
+            obs_y = round(metersToFloor_title_length(obs[1]), 1)
             for i in range(workspaceRows):
                 for j in range(workspaceCols):
                     node = self.map[i][j]
