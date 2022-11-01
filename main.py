@@ -39,10 +39,10 @@ ev3.speaker.beep()
 
 # Because the diameter of rubber tires is around 56mm, the circumference is 56 * pi.
 pi = 3.14159265359
-ev3_wheel_diameter = 56  # mm
+ev3_wheel_diameter = 56  # milimeters
 ev3_wheel_circumference = ev3_wheel_diameter*pi
 
-
+#move forwrd x milimeters
 def move_fw(x):
     left_motor.run_angle(200, x*360/ev3_wheel_circumference, Stop.HOLD, False)
     right_motor.run_angle(200, x*360/ev3_wheel_circumference, Stop.HOLD, True)
@@ -59,7 +59,7 @@ def turn_right():
 
 
 def move_forward_one_node():
-    offset=0
+    offset=0 #milimeters
     move_fw(node_distance+offset)
 
 #######################################
